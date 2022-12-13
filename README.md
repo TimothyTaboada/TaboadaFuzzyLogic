@@ -51,6 +51,8 @@ Depending on the previous status
 -Dislike-
 > Who? (MODERATE)
 
+> (´・ω・`) (MODERATE Love & Dislike)
+
 > No Interest (HIGH)
 
 -Hate-
