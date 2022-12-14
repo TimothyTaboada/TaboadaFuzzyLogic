@@ -68,3 +68,6 @@ Depending on the previous status
 > Love But Hate (MODERATE Love & Hate; Hate > Love)
 
 > Don't Want To Get Involved (HIGH)
+
+# Post Program Clarity Segment
+I've realized that I have performed overkill on a janky game mechanic, to the point where I don't even know if what I've done is even remotely accurate to how it works in game or not. Me shoehorning in AA1's version of the mechanic didn't help in making this program coherent either. Probably should've just stuck with the thermostat idea.

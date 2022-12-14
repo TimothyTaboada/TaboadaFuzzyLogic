@@ -18,7 +18,8 @@ namespace TaboadaFuzzyLogic
         MembershipFunctionCollection love, like, dislike, hate, status;
         LinguisticVariable myLove, myLike, myDislike, myHate, myStatus;
         FuzzyRuleCollection myRule;
-        Queue<int> lldh = new Queue<int>();
+        Queue<int> lldh = new Queue<int>(); // Love = 1, Like = 2, Dislike = 3, Hate = 4
+        int loveCount, likeCount, dislikeCount, hateCount;
 
         public Form1()
         {
@@ -60,7 +61,7 @@ namespace TaboadaFuzzyLogic
             myStatus = new LinguisticVariable("STATUS", status);
         }
 
-        public void setRules()
+        public void SetRules()
         {
             myRule = new FuzzyRuleCollection();
             myRule.Add(new FuzzyRule("IF (LOVE IS LOW) AND (LIKE IS LOW) AND (DISLIKE IS LOW) AND (HATE IS LOW) THEN STATUS IS NEUTRAL"));
@@ -77,7 +78,7 @@ namespace TaboadaFuzzyLogic
             myRule.Add(new FuzzyRule("IF (LOVE IS MODERATE) AND (LIKE IS LOW) AND (DISLIKE IS LOW) AND (HATE IS MODERATE) THEN STATUS IS NEUTRAL"));
         }
 
-        public void setFuzzyEngine()
+        public void SetFuzzyEngine()
         {
             fe = new FuzzyEngine();
             fe.LinguisticVariableCollection.Add(myLove);
@@ -86,6 +87,125 @@ namespace TaboadaFuzzyLogic
             fe.LinguisticVariableCollection.Add(myHate);
             fe.LinguisticVariableCollection.Add(myStatus);
             fe.FuzzyRuleCollection = myRule;
+        }
+
+        public void Forgor()
+        {
+            switch (lldh.Dequeue())
+            {
+                case 1:
+                    loveCount--;
+                    break;
+                case 2:
+                    likeCount--;
+                    break;
+                case 3:
+                    dislikeCount--;
+                    break;
+                case 4:
+                    hateCount--;
+                    break;
+            }
+        }
+
+        public void UpdateStatus()
+        {
+            fe.Consequent = "STATUS";
+            if(lldh.Count < 30)
+            {
+                textBox2.Text = "NOT ENOUGH POINTS";
+            }
+            else textBox2.Text = "" + fe.Defuzzify();
+        }
+
+        public void UpdateFP()
+        {
+            textBox1.Text = "Love = " + loveCount + ", Like = " + likeCount + ", Dislike = " + dislikeCount + ", Hate = " + hateCount;
+        }
+
+        public void FuzzyBlock()
+        {
+            UpdateFP();
+            myLove.InputValue = loveCount;
+            myLike.InputValue = likeCount;
+            myDislike.InputValue = dislikeCount;
+            myHate.InputValue = hateCount;
+            myLove.Fuzzify("MODERATE");
+            myLike.Fuzzify("MODERATE");
+            myDislike.Fuzzify("MODERATE");
+            myHate.Fuzzify("MODERATE");
+            SetFuzzyEngine();
+            UpdateStatus();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SetMembers();
+            SetRules();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(lldh.Count < 30)
+            {
+                lldh.Enqueue(1);
+                loveCount++;
+            }
+            else
+            {
+                Forgor();
+                lldh.Enqueue(1);
+                loveCount++;
+            }
+            FuzzyBlock();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (lldh.Count < 30)
+            {
+                lldh.Enqueue(2);
+                likeCount++;
+            }
+            else
+            {
+                Forgor();
+                lldh.Enqueue(2);
+                likeCount++;
+            }
+            FuzzyBlock();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (lldh.Count < 30)
+            {
+                lldh.Enqueue(3);
+                dislikeCount++;
+            }
+            else
+            {
+                Forgor();
+                lldh.Enqueue(3);
+                dislikeCount++;
+            }
+            FuzzyBlock();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (lldh.Count < 30)
+            {
+                lldh.Enqueue(4);
+                hateCount++;
+            }
+            else
+            {
+                Forgor();
+                lldh.Enqueue(1);
+                hateCount++;
+            }
+            FuzzyBlock();
         }
     }
 }
